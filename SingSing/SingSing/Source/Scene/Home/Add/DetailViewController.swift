@@ -11,10 +11,12 @@ import UIKit
 
 import SnapKit
 // TODO: - DetailViewController로 이름 변경후, cell 클릭 시 update 구현하기
+// TODO: - editing으로 들어온 경우, 가져온 foodModel을 이용해 화면에 뿌려주기
+// TODO: - editing으로 완료할 경우, 해당 cell의 data change해줘서 화면에 뿌려주기
 class DetailViewController: BaseViewController {
   
   // MARK: - Properties
-  
+  var detailState: DetailStateType!
   var foodModel: FoodModel?
   var popCompletion: (() -> Void)?
   private let textViewPlaceholder = "메모를 입력하세요."
@@ -98,6 +100,7 @@ class DetailViewController: BaseViewController {
     let iv = UIImageView()
     iv.image = self.cameraImage
     iv.contentMode = .scaleToFill
+    iv.tintColor = SSType.lv2.color
     iv.layer.borderColor = SSType.lv1.color.cgColor
     iv.layer.borderWidth = 2
     iv.layer.cornerRadius = 10
@@ -139,8 +142,8 @@ class DetailViewController: BaseViewController {
     tv.layer.borderWidth = 1
     tv.layer.borderColor = SSType.lv1.color.cgColor
     tv.font = .systemFont(ofSize: 14)
-    tv.text = textViewPlaceholder
-    tv.textColor = SSType.placeholder.color
+//    tv.text = textViewPlaceholder
+//    tv.textColor = SSType.placeholder.color
     tv.backgroundColor = .clear
     tv.textContainerInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
     tv.indicatorStyle = .black
@@ -170,9 +173,30 @@ class DetailViewController: BaseViewController {
   
   // MARK: - LifeCycle
   
+  init(detailState: DetailStateType) {
+    self.detailState = detailState
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     addNotiObserver()
+    initialSetting()
+
+  }
+  
+  private func initialSetting() {
+    switch detailState {
+    case .addition:
+      configureAddition()
+    case .editing:
+      configureEditing()
+    default: break
+    }
   }
   
   // MARK: - Setup
@@ -247,6 +271,38 @@ class DetailViewController: BaseViewController {
   
   // MARK: - Helpers
   
+  private func configureEditing() {
+    saveButton.isEnabled = true
+    saveButton.setTitleColor(SSType.lv2.color, for: .normal)
+    
+    self.nameTextField.text = self.foodModel?.name
+    self.expirationDateTextField.text = self.foodModel?.expirationDate
+    self.consumptionDateTextField.text = self.foodModel?.consumptionDate
+    self.categoryTextField.text = self.foodModel?.category
+    
+    if self.foodModel?.extraDescription == "" {
+      self.descriptionTextView.text = self.textViewPlaceholder
+      self.descriptionTextView.textColor = .placeholderText
+    } else {
+      self.descriptionTextView.text = self.foodModel?.extraDescription
+      self.descriptionTextView.textColor = .black
+    }
+    
+    let image: UIImage?
+    
+    if let data = self.foodModel?.thumbnail {
+      image = UIImage(data: data)!
+    } else {
+      image = UIImage(systemName: "fork.knife.circle", weight: .medium)
+    }
+    self.thumbnailImageView.image = image
+  }
+  
+  private func configureAddition() {
+    descriptionTextView.text = textViewPlaceholder
+    descriptionTextView.textColor = SSType.placeholder.color
+  }
+  
   private func addNotiObserver() {
     NotificationCenter.default.addObserver(
       self,
@@ -278,39 +334,58 @@ class DetailViewController: BaseViewController {
   // MARK: - Actions
   
   @objc private func saveButtonDidTap() {
-    // TODO: - thumbnail 만들기
-    self.foodModel = FoodModel(
-      uuid: UUID(),
-      name: self.nameTextField.text!,
-      expirationDate: self.expirationDateTextField.text!
-    )
-    
-    self.foodModel?.consumptionDate = self.consumptionDateTextField.text
-    self.foodModel?.category = self.categoryTextField
-      .text! == "" ? "미분류" : categoryTextField.text!
-    
-    if thumbnailImageView.image != cameraImage {
+    switch detailState {
+    case .editing:
+      self.foodModel?.name = self.nameTextField.text!
+      self.foodModel?.expirationDate = self.expirationDateTextField.text!
+      self.foodModel?.consumptionDate = self.consumptionDateTextField.text
+      self.foodModel?.category = self.categoryTextField
+        .text! == "" ? "미분류" : categoryTextField.text!
+      
+      if self.descriptionTextView.text == self.textViewPlaceholder {
+        self.foodModel?.extraDescription = ""
+      } else {
+        self.foodModel?.extraDescription = self.descriptionTextView.text
+      }
+      
       let data = thumbnailImageView.image?.jpegData(compressionQuality: 1)
       self.foodModel?.thumbnail = data
-    } else {
-      self.foodModel?.thumbnail = nil
+      
+      if thumbnailImageView.image != cameraImage {
+
+      } else {
+//        self.foodModel?.thumbnail = nil
+      }
+      
+      if let foodResult = self.foodModel {
+        PersistenceManager.shared.editFood(foodModel: foodResult) //CoreData 저장
+      }
+      
+    case .addition:
+      self.foodModel = FoodModel(
+        uuid: UUID(),
+        name: self.nameTextField.text!,
+        expirationDate: self.expirationDateTextField.text!,
+        consumptionDate: self.consumptionDateTextField.text,
+        extraDescription: descriptionTextView.text == textViewPlaceholder ? "" : descriptionTextView.text,
+        category: categoryTextField.text! == "" ? "미분류" : categoryTextField.text!
+      )
+      
+      if thumbnailImageView.image != cameraImage {
+        let data = thumbnailImageView.image?.jpegData(compressionQuality: 1)
+        self.foodModel?.thumbnail = data
+      } else {
+        self.foodModel?.thumbnail = nil
+      }
+      
+      if let foodResult = self.foodModel {
+        PersistenceManager.shared.insertFood(foodModel: foodResult) //CoreData 저장
+      }
+    default: break
     }
 
-    
-    if self.descriptionTextView.text == self.textViewPlaceholder {
-      self.foodModel?.extraDescription = ""
-    } else {
-      self.foodModel?.extraDescription = self.descriptionTextView.text
-    }
-    
-    if let foodResult = self.foodModel {
-      PersistenceManager.shared.insertItem(item: foodResult) //CoreData 저장
-    }
-    
     self.popCompletion?()
-    
     self.navigationController?.popViewController(animated: true)
-    print("DEBUG: 완료버튼 clicked")
   }
   
   @objc private func textFieldEditing() {
@@ -323,7 +398,6 @@ class DetailViewController: BaseViewController {
       self.rightItem.isEnabled = false
     }
   }
-  
   
   @objc private func viewDidTap() {
     self.view.endEditing(true)
