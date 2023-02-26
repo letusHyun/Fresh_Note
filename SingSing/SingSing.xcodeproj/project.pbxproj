@@ -36,6 +36,7 @@
 		13B29B5029A4B596009DAEC1 /* Food+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29B4E29A4B596009DAEC1 /* Food+CoreDataProperties.swift */; };
 		13B29B5229A4B746009DAEC1 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29B5129A4B746009DAEC1 /* Category.swift */; };
 		13B29B5429A60911009DAEC1 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29B5329A60911009DAEC1 /* Font.swift */; };
+		13B29B5829AA6D30009DAEC1 /* DetailStateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29B5729AA6D30009DAEC1 /* DetailStateType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,7 @@
 		13B29B4E29A4B596009DAEC1 /* Food+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Food+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		13B29B5129A4B746009DAEC1 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		13B29B5329A60911009DAEC1 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		13B29B5729AA6D30009DAEC1 /* DetailStateType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailStateType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +261,7 @@
 				13B29B1A299BF6AE009DAEC1 /* SSType.swift */,
 				13B29B5129A4B746009DAEC1 /* Category.swift */,
 				13B29B5329A60911009DAEC1 /* Font.swift */,
+				13B29B5729AA6D30009DAEC1 /* DetailStateType.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				13B29AF1299A0673009DAEC1 /* PersistenceManager.swift in Sources */,
 				13B29B1B299BF6AE009DAEC1 /* SSType.swift in Sources */,
 				13B29AFD299A9777009DAEC1 /* UIImage+.swift in Sources */,
+				13B29B5829AA6D30009DAEC1 /* DetailStateType.swift in Sources */,
 				13B29B21299E2CEC009DAEC1 /* UnderlineTextField.swift in Sources */,
 				13B29B14299BE29D009DAEC1 /* CalendarViewController.swift in Sources */,
 			);
