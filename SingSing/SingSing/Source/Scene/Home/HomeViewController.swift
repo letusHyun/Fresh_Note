@@ -16,8 +16,9 @@ import SnapKit
 final class HomeViewController: BaseViewController {
   
   // MARK: - Properties
-  private var foodModels = [FoodModel]()
   
+  private var foodModels = [FoodModel]()
+  private var foodModel: FoodModel?
   private lazy var notiButton: UIButton = {
     let button = UIButton(
       UIImage(systemName: "bell", weight: .light),
@@ -99,8 +100,7 @@ final class HomeViewController: BaseViewController {
   // MARK: - Helpers
   
   private func fetchData() {
-    let request = Food.fetchRequest()
-    let foods = PersistenceManager.shared.fetch(request: request)
+    let foods = PersistenceManager.shared.fetchFoods()
 
     for i in 0..<foods.count {
       let food = foods[i]
@@ -146,10 +146,9 @@ final class HomeViewController: BaseViewController {
   }
   
   @objc func addButtonDidTap() {
-    let detailVC = DetailViewController()
+    let detailVC = DetailViewController(detailState: .addition)
     detailVC.popCompletion = { [weak self] in
-      let request = Food.fetchRequest()
-      let foods = PersistenceManager.shared.fetch(request: request)
+      let foods = PersistenceManager.shared.fetchFoods()
       guard let lastFood = foods.last else { return }
       
       self?.foodModels.append(FoodModel(
@@ -176,7 +175,7 @@ extension HomeViewController: UITableViewDelegate {
     _ tableView: UITableView,
     cellForRowAt indexPath: IndexPath
   ) -> UITableViewCell {
-    
+    print("DEBUG: cellForRowAt called")
     guard let cell = tableView.dequeueReusableCell(
       withIdentifier: FoodListCell.id, for: indexPath
     ) as? FoodListCell
@@ -212,14 +211,16 @@ extension HomeViewController: UITableViewDataSource {
     _ tableView: UITableView,
     didSelectRowAt indexPath: IndexPath
   ) {
+    let detailVC = DetailViewController(detailState: .editing)
+    detailVC.foodModel = self.foodModels[indexPath.row]
     
-    let detailVC = DetailViewController()
-    detailVC.foodModel = foodModels[indexPath.row]
+    detailVC.popCompletion = { [weak self] in
+      self?.foodModels = PersistenceManager.shared.fetchFoodModels()
+      self?.foodModel = self?.foodModels[indexPath.row]
+      
+      self?.tableView.reloadData()
+    }
     
-    present(detailVC, animated: true)
-//    print("\(index + 1)번째 item clicked")
+    self.navigationController?.pushViewController(detailVC, animated: true)
   }
 }
-
-
-
