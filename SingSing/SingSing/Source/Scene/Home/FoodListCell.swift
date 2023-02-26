@@ -16,7 +16,8 @@ class FoodListCell: UITableViewCell {
   static let id = "FoodListCell"
   
   private let defaultImage: UIImage = {
-    guard let image = UIImage(systemName: "fork.knife.circle", weight: .medium)
+    guard let image = UIImage(systemName: "fork.knife.circle", weight: .medium)?
+      .withTintColor(SSType.lv2.color)
     else { return UIImage() }
     return image
   }()
@@ -28,7 +29,7 @@ class FoodListCell: UITableViewCell {
     iv.layer.borderWidth = 2
     iv.layer.cornerRadius = 10
     iv.layer.masksToBounds = true
-    iv.image = defaultImage
+    iv.image = self.defaultImage
     iv.tintColor = SSType.lv2.color
     iv.backgroundColor = .clear
     return iv
@@ -131,6 +132,7 @@ class FoodListCell: UITableViewCell {
   // MARK: - Bind
   
   func configure(_ foodModel: FoodModel?) {
+    print("DEBUG: Cell' configure called")
     guard let foodModel = foodModel else { return }
     self.nameLabel.text = "상품명: \(foodModel.name)"
     self.categoryLabel.text = "카테고리: \(foodModel.category)"
@@ -141,7 +143,7 @@ class FoodListCell: UITableViewCell {
       let image = UIImage(data: data)
       self.thumbnailImageView.image = image
     } else {
-      self.thumbnailImageView.image = self.defaultImage
+      self.thumbnailImageView.image = defaultImage.withRenderingMode(.alwaysTemplate)
     }
   }
 }
