@@ -133,8 +133,12 @@ class PersistenceManager {
   // MARK: - Delete
   
   @discardableResult
-  func delete(object: NSManagedObject) -> Bool {
-    self.context.delete(object)
+  func deleteFood(index: Int) -> Bool {
+    let foods = fetchFoods()
+    let food = foods[index]
+    
+    context.delete(food)
+    
     do {
       try context.save() // 5. NSManagedObjectContext에 저장한다.
       return true
