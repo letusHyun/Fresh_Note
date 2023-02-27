@@ -171,6 +171,20 @@ final class HomeViewController: BaseViewController {
 // MARK: - UITableViewDelegate
 
 extension HomeViewController: UITableViewDelegate {
+  
+  func tableView(
+    _ tableView: UITableView,
+    heightForRowAt indexPath: IndexPath
+  ) -> CGFloat {
+    return 100
+  }
+  
+}
+
+// MARK: - UITableViewDataSource
+
+extension HomeViewController: UITableViewDataSource {
+  
   func tableView(
     _ tableView: UITableView,
     cellForRowAt indexPath: IndexPath
@@ -198,17 +212,6 @@ extension HomeViewController: UITableViewDelegate {
   
   func tableView(
     _ tableView: UITableView,
-    heightForRowAt indexPath: IndexPath
-  ) -> CGFloat {
-    return 100
-  }
-}
-
-// MARK: - UITableViewDataSource
-
-extension HomeViewController: UITableViewDataSource {
-  func tableView(
-    _ tableView: UITableView,
     didSelectRowAt indexPath: IndexPath
   ) {
     let detailVC = DetailViewController(detailState: .editing)
@@ -222,5 +225,17 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     self.navigationController?.pushViewController(detailVC, animated: true)
+  }
+  
+  func tableView(
+    _ tableView: UITableView,
+    commit editingStyle: UITableViewCell.EditingStyle,
+    forRowAt indexPath: IndexPath
+  ) {
+    if editingStyle == .delete {
+      foodModels.remove(at: indexPath.row)
+      tableView.deleteRows(at: [indexPath], with: .fade)
+      PersistenceManager.shared.deleteFood(index: indexPath.row)
+    }
   }
 }
