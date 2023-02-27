@@ -348,13 +348,11 @@ class DetailViewController: BaseViewController {
         self.foodModel?.extraDescription = self.descriptionTextView.text
       }
       
-      let data = thumbnailImageView.image?.jpegData(compressionQuality: 1)
-      self.foodModel?.thumbnail = data
-      
-      if thumbnailImageView.image != cameraImage {
-
+      if thumbnailImageView.image!.isSymbolImage {
+        self.foodModel?.thumbnail = nil
       } else {
-//        self.foodModel?.thumbnail = nil
+        let data = thumbnailImageView.image?.jpegData(compressionQuality: 1)
+        self.foodModel?.thumbnail = data
       }
       
       if let foodResult = self.foodModel {
@@ -367,7 +365,8 @@ class DetailViewController: BaseViewController {
         name: self.nameTextField.text!,
         expirationDate: self.expirationDateTextField.text!,
         consumptionDate: self.consumptionDateTextField.text,
-        extraDescription: descriptionTextView.text == textViewPlaceholder ? "" : descriptionTextView.text,
+        extraDescription:
+          descriptionTextView.text == textViewPlaceholder ? "" : descriptionTextView.text,
         category: categoryTextField.text! == "" ? "미분류" : categoryTextField.text!
       )
       
