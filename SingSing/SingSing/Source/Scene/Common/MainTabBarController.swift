@@ -6,12 +6,15 @@
 //
 
 import UIKit
+
 import SnapKit
 
 class MainTabBarController: UITabBarController {
+  
   // MARK: - Properties
   
   // MARK: - LifeCycle
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -24,6 +27,7 @@ class MainTabBarController: UITabBarController {
   }
   
   // MARK: - Setup
+  
   private func setupLayouts() {
     
   }
@@ -37,6 +41,7 @@ class MainTabBarController: UITabBarController {
   }
   
   // MARK: - Privates
+  
   private func configureTabBar() {
     configureItems()
     
@@ -52,10 +57,6 @@ class MainTabBarController: UITabBarController {
       ]
     
     tabBar.standardAppearance = appearance
-    
-    tabBar.clipsToBounds = true
-    tabBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-    tabBar.layer.cornerRadius = (tabBar.frame.height + 10) * 0.30
   }
   
   private func configureItems() {
