@@ -6,11 +6,13 @@
 //
 
 import UIKit
+
 import SnapKit
 
 class UnderlineTextField: UITextField {
   
   // MARK: - Properties
+  
   private let underlineView: UIView = {
     let view = UIView()
     view.backgroundColor = SSType.lv1.color
@@ -18,6 +20,7 @@ class UnderlineTextField: UITextField {
   }()
   
   // MARK: - LifeCycle
+  
   init(placeholder: String) {
     super.init(frame: .zero)
     setupLayouts()
@@ -31,12 +34,13 @@ class UnderlineTextField: UITextField {
   
   
   // MARK: - Setup
+  
   private func setupLayouts() {
-    self.addSubview(underlineView)
+    self.addSubview(self.underlineView)
   }
   
   private func setupConstraints() {
-    underlineView.snp.makeConstraints {
+    self.underlineView.snp.makeConstraints {
       $0.top.equalTo(self.snp.bottom)
       $0.left.right.equalToSuperview()
       $0.height.equalTo(1)
@@ -58,6 +62,8 @@ class UnderlineTextField: UITextField {
     
     addLeftPadding()
   }
+  
+  // MARK: - Helpers
   
   private func addLeftPadding(width: CGFloat = 5) {
     let paddingView = UIView(

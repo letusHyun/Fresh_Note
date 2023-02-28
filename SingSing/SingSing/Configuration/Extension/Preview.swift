@@ -5,8 +5,8 @@
 //  Created by SeokHyun on 2023/02/14.
 //
 
-import UIKit
 import SwiftUI
+import UIKit
 
 //SwiftUI 활용해서 Preview 생성
 //opt + Cmd + enter: 미리보기 창 열기
