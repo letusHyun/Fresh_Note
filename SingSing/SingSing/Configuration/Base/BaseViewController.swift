@@ -8,6 +8,9 @@
 import UIKit
 
 class BaseViewController: UIViewController {
+  
+  // MARK: - LifeCycle
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupLayouts()
@@ -16,11 +19,15 @@ class BaseViewController: UIViewController {
     bind()
   }
   
+  // MARK: - Setup
+  
   func setupLayouts() { }
   func setupConstraints() { }
   func setupStyles() {
     self.view.backgroundColor = SSType.background.color
   }
+  
+  // MARK: - Configure
   
   func bind() { }
 }
