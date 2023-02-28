@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class FoodListCell: UITableViewCell {
+final class FoodListCell: UITableViewCell {
   
   // MARK: - Properties
   
@@ -132,7 +132,6 @@ class FoodListCell: UITableViewCell {
   // MARK: - Bind
   
   func configure(_ foodModel: FoodModel?) {
-    print("DEBUG: Cell' configure called")
     guard let foodModel = foodModel else { return }
     self.nameLabel.text = "상품명: \(foodModel.name)"
     self.categoryLabel.text = "카테고리: \(foodModel.category)"

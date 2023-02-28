@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class UnderlineTextField: UITextField {
+final class UnderlineTextField: UITextField {
   
   // MARK: - Properties
   
@@ -31,7 +31,6 @@ class UnderlineTextField: UITextField {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
   
   // MARK: - Setup
   

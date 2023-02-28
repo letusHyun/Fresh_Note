@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PinViewController: BaseViewController {
+final class PinViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()

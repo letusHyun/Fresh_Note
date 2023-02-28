@@ -8,7 +8,7 @@
 import CoreData
 import Foundation
 
-class PersistenceManager {
+final class PersistenceManager {
   
   // MARK: - Properties
   
