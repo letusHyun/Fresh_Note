@@ -37,6 +37,7 @@
 		13B29B5229A4B746009DAEC1 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29B5129A4B746009DAEC1 /* Category.swift */; };
 		13B29B5429A60911009DAEC1 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29B5329A60911009DAEC1 /* Font.swift */; };
 		13B29B5829AA6D30009DAEC1 /* DetailStateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29B5729AA6D30009DAEC1 /* DetailStateType.swift */; };
+		13B29B5B29AD020E009DAEC1 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 13B29B5A29AD020E009DAEC1 /* FSCalendar */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +80,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B29B06299AB9B5009DAEC1 /* SnapKit in Frameworks */,
+				13B29B5B29AD020E009DAEC1 /* FSCalendar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +294,7 @@
 			name = SingSing;
 			packageProductDependencies = (
 				13B29B05299AB9B5009DAEC1 /* SnapKit */,
+				13B29B5A29AD020E009DAEC1 /* FSCalendar */,
 			);
 			productName = SingSing;
 			productReference = 13B29AAB29993E59009DAEC1 /* SingSing.app */;
@@ -323,6 +326,7 @@
 			mainGroup = 13B29AA229993E59009DAEC1;
 			packageReferences = (
 				13B29B04299AB9B5009DAEC1 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				13B29B5929AD020E009DAEC1 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 			);
 			productRefGroup = 13B29AAC29993E59009DAEC1 /* Products */;
 			projectDirPath = "";
@@ -604,6 +608,14 @@
 				minimumVersion = 5.6.0;
 			};
 		};
+		13B29B5929AD020E009DAEC1 /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.8.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -611,6 +623,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 13B29B04299AB9B5009DAEC1 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		13B29B5A29AD020E009DAEC1 /* FSCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 13B29B5929AD020E009DAEC1 /* XCRemoteSwiftPackageReference "FSCalendar" */;
+			productName = FSCalendar;
 		};
 /* End XCSwiftPackageProductDependency section */
 
