@@ -12,8 +12,9 @@ import SnapKit
 final class OnboardingViewController: BaseViewController {
   
   // MARK: - Properties
-  private let onboarding = OnboardingMessage.messages
   
+  private var dataSource = OnboardingCellModel.onboardings
+
   private let titleLabel: UILabel = {
     let label = UILabel()
     label.font = .systemFont(ofSize: 30)
@@ -37,7 +38,8 @@ final class OnboardingViewController: BaseViewController {
     cv.isPagingEnabled = true
     cv.showsHorizontalScrollIndicator = false
     
-    cv.register(OnboardingCell.self, forCellWithReuseIdentifier: OnboardingCell.id)
+    cv.register(DescriptionCell.self, forCellWithReuseIdentifier: DescriptionCell.id)
+    cv.register(DdayCell.self, forCellWithReuseIdentifier: DdayCell.id)
     cv.delegate = self
     cv.dataSource = self
     return cv
@@ -67,7 +69,6 @@ final class OnboardingViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-
   }
   
   // MARK: - Setup
@@ -106,6 +107,12 @@ final class OnboardingViewController: BaseViewController {
   
   override func setupStyles() {
     super.setupStyles()
+  }
+  
+  // MARK: - Action
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    self.view.endEditing(true)
   }
 }
 
@@ -152,6 +159,10 @@ extension OnboardingViewController: UICollectionViewDelegateFlowLayout {
       self.startButton.isHidden = true
     }
   }
+  
+  func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//    let index = Int(scrollView.contentOffset.x / scrollView.bounds.width)
+  }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -162,20 +173,41 @@ extension OnboardingViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     numberOfItemsInSection section: Int
   ) -> Int {
-    return 3
+    return self.dataSource.count
   }
   
   func collectionView(
     _ collectionView: UICollectionView,
     cellForItemAt indexPath: IndexPath
   ) -> UICollectionViewCell {
-    guard let cell = collectionView.dequeueReusableCell(
-      withReuseIdentifier: OnboardingCell.id,
-      for: indexPath
-    ) as? OnboardingCell else { return UICollectionViewCell() }
+    let index = indexPath.item
     
-    let message = self.onboarding[indexPath.item]
-    cell.configure(message: message)
-    return cell
+    switch self.dataSource[index] {
+    case let .description(description):
+      guard let descriptionCell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: DescriptionCell.id,
+        for: indexPath
+      ) as? DescriptionCell else { return UICollectionViewCell() }
+      
+      descriptionCell.configure(description: description)
+      return descriptionCell
+    case let .dDay(day):
+      guard let dDayCell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: DdayCell.id,
+        for: indexPath
+      ) as? DdayCell else { return UICollectionViewCell() }
+      
+      dDayCell.configure(day: day)
+      return dDayCell
+    }
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    didSelectItemAt indexPath: IndexPath
+  ) {
+    let cell = collectionView.cellForItem(at: indexPath)
+    cell?.contentView.endEditing(true)
   }
 }
+
