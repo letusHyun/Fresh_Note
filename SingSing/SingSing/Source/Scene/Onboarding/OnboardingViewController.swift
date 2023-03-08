@@ -13,8 +13,9 @@ final class OnboardingViewController: BaseViewController {
   
   // MARK: - Properties
   
+  private var dDayCell: DdayCell?
   private var dataSource = OnboardingCellModel.onboardings
-
+  
   private let titleLabel: UILabel = {
     let label = UILabel()
     label.font = .systemFont(ofSize: 30)
@@ -59,9 +60,11 @@ final class OnboardingViewController: BaseViewController {
     let button = UIButton()
     button.setTitle("시작하기", for: .normal)
     button.setTitleColor(.white, for: .normal)
-    button.backgroundColor = SSType.lv3.color
+    button.backgroundColor = SSType.lv2.color.withAlphaComponent(0.5)
+    button.isEnabled = false
     button.layer.cornerRadius = 25
     button.isHidden = true
+    button.addTarget(self, action: #selector(startButtonDidTap), for: .touchUpInside)
     return button
   }()
   
@@ -114,6 +117,19 @@ final class OnboardingViewController: BaseViewController {
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     self.view.endEditing(true)
   }
+  
+  // TODO: - d Day 데이터 영구 저장
+  // TODO: - 다른 Cell 클릭 시 키보드 내리기
+  @objc private func startButtonDidTap() {
+    
+    guard let dDayCell = self.dDayCell else { return }
+    guard let string = dDayCell.dDayString else { return }
+    Storage.setFirstTime(dDay: string)
+    
+    let tabBarVC = MainTabBarController()
+    tabBarVC.modalPresentationStyle = .fullScreen
+    self.present(tabBarVC, animated: true)
+  }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -159,10 +175,6 @@ extension OnboardingViewController: UICollectionViewDelegateFlowLayout {
       self.startButton.isHidden = true
     }
   }
-  
-  func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//    let index = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-  }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -183,6 +195,7 @@ extension OnboardingViewController: UICollectionViewDataSource {
     let index = indexPath.item
     
     switch self.dataSource[index] {
+      
     case let .description(description):
       guard let descriptionCell = collectionView.dequeueReusableCell(
         withReuseIdentifier: DescriptionCell.id,
@@ -191,13 +204,12 @@ extension OnboardingViewController: UICollectionViewDataSource {
       
       descriptionCell.configure(description: description)
       return descriptionCell
-    case let .dDay(day):
+      
+    case .dDay:
       guard let dDayCell = collectionView.dequeueReusableCell(
         withReuseIdentifier: DdayCell.id,
         for: indexPath
       ) as? DdayCell else { return UICollectionViewCell() }
-      
-      dDayCell.configure(day: day)
       return dDayCell
     }
   }
@@ -206,8 +218,21 @@ extension OnboardingViewController: UICollectionViewDataSource {
     _ collectionView: UICollectionView,
     didSelectItemAt indexPath: IndexPath
   ) {
-    let cell = collectionView.cellForItem(at: indexPath)
-    cell?.contentView.endEditing(true)
+    guard let dDayCell = collectionView.cellForItem(at: indexPath) as? DdayCell
+    else { return }
+    
+    dDayCell.pushCompletion = { [weak self] isEmpty in
+      if isEmpty {
+        self?.startButton.backgroundColor = SSType.lv2.color.withAlphaComponent(0.5)
+        self?.startButton.isEnabled = false
+      } else {
+        self?.startButton.backgroundColor = SSType.lv2.color
+        self?.startButton.isEnabled = true
+      }
+    }
+    
+    dDayCell.contentView.endEditing(true)
+    
+    self.dDayCell = dDayCell
   }
 }
-

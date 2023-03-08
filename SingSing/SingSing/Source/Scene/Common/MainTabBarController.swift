@@ -11,36 +11,14 @@ import SnapKit
 
 final class MainTabBarController: UITabBarController {
   
-  // MARK: - Properties
-  
   // MARK: - LifeCycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    self.delegate = self
-    
-    setupStyles()
     configureTabBar()
-    setupLayouts()
-    setupConstraints()
   }
   
-  // MARK: - Setup
-  
-  private func setupLayouts() {
-    
-  }
-  
-  private func setupConstraints() {
-    
-  }
-  
-  private func setupStyles() {
-    
-  }
-  
-  // MARK: - Privates
+  // MARK: - Configures
   
   private func configureTabBar() {
     configureItems()
@@ -104,8 +82,3 @@ final class MainTabBarController: UITabBarController {
     self.viewControllers = [homeNavi, calendarVC, PinVC, myVC]
   }
 }
-
-extension MainTabBarController: UITabBarControllerDelegate {
-  
-}
-

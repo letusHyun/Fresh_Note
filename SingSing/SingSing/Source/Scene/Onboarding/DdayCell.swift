@@ -12,7 +12,11 @@ import SnapKit
 class DdayCell: UICollectionViewCell {
   
   // MARK: - Properties
+  
+  var pushCompletion: ((Bool) -> Void)?
+  
   private let maxLength = 2
+  
   static var id: String {
     return NSStringFromClass(Self.self).components(separatedBy: ".").last!
   }
@@ -37,6 +41,8 @@ class DdayCell: UICollectionViewCell {
     return label
   }()
   
+  var dDayString: String?
+  
   private lazy var textField: UITextField = {
     let tf = UITextField()
     tf.placeholder = "Day"
@@ -44,8 +50,10 @@ class DdayCell: UICollectionViewCell {
     tf.font = .systemFont(ofSize: 50)
     tf.addTarget(self, action: #selector(textDidChange(_:)), for: .editingChanged)
     tf.textColor = SSType.lv3.color
+    tf.delegate = self
     return tf
   }()
+  
   // MARK: - LifeCycle
   
   override init(frame: CGRect) {
@@ -73,7 +81,7 @@ class DdayCell: UICollectionViewCell {
   
   private func setupConstraints() {
     self.dLabel.snp.makeConstraints {
-      $0.centerX.equalToSuperview().offset(-30)
+      $0.centerX.equalToSuperview().offset(-25)
       $0.centerY.equalToSuperview()
     }
     
@@ -87,8 +95,25 @@ class DdayCell: UICollectionViewCell {
   // MARK: - Action
   
   @objc func textDidChange(_ sender: UITextField) {
-    if sender.text?.count ?? 0 > maxLength {
+    if sender.text?.count ?? 0 > self.maxLength {
       sender.deleteBackward()
+    }
+  }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension DdayCell: UITextFieldDelegate {
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    if self.textField.text == "" ||
+      self.textField.text == "00" {
+      self.pushCompletion?(true)
+    } else if self.textField.text == "0" {
+      self.dDayString = self.textField.text
+      self.pushCompletion?(false)
+    } else {
+      self.dDayString = self.textField.text
+      self.pushCompletion?(false)
     }
   }
 }

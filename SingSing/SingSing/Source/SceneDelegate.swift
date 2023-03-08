@@ -17,20 +17,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     options connectionOptions: UIScene.ConnectionOptions
   ) {
     guard let windowScene = (scene as? UIWindowScene) else { return }
-    window = UIWindow(windowScene: windowScene)
+    self.window = UIWindow(windowScene: windowScene)
     
-//    let homeVC = HomeViewController()
-//    homeVC.view.backgroundColor = UIColor(hex: "FBF8F3")
-//    let navigationController = UINavigationController(rootViewController: homeVC)
+    if Storage.isFirstTime() {
+      self.window?.rootViewController = OnboardingViewController()
+    } else {
+      self.window?.rootViewController = MainTabBarController()
+    }
     
-//    window?.rootViewController = navigationController
-    window?.rootViewController = MainTabBarController()
-    window?.makeKeyAndVisible()
+    self.window?.makeKeyAndVisible()
   }
   
   func sceneDidEnterBackground(_ scene: UIScene) {
-    
     PersistenceManager.shared.saveContext()
   }
 }
-

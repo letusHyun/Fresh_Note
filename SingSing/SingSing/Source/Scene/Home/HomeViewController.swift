@@ -5,8 +5,6 @@
 //  Created by SeokHyun on 2023/02/13.
 //
 
-
-// TODO: -   슬라이드 삭제 기능
 // TODO: -   :버튼 만들어서 선택 삭제 기능 구현
 import CoreData
 import UIKit
@@ -178,7 +176,6 @@ extension HomeViewController: UITableViewDelegate {
   ) -> CGFloat {
     return 100
   }
-  
 }
 
 // MARK: - UITableViewDataSource
@@ -189,7 +186,6 @@ extension HomeViewController: UITableViewDataSource {
     _ tableView: UITableView,
     cellForRowAt indexPath: IndexPath
   ) -> UITableViewCell {
-    print("DEBUG: cellForRowAt called")
     guard let cell = tableView.dequeueReusableCell(
       withIdentifier: FoodListCell.id, for: indexPath
     ) as? FoodListCell
@@ -206,7 +202,6 @@ extension HomeViewController: UITableViewDataSource {
     _ tableView: UITableView,
     numberOfRowsInSection section: Int
   ) -> Int {
-    print("DEBUG: \(foodModels.count)")
     return self.foodModels.count
   }
   

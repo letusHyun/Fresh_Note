@@ -13,7 +13,7 @@ import SnapKit
 // TODO: - DetailViewController로 이름 변경후, cell 클릭 시 update 구현하기
 // TODO: - editing으로 들어온 경우, 가져온 foodModel을 이용해 화면에 뿌려주기
 // TODO: - editing으로 완료할 경우, 해당 cell의 data change해줘서 화면에 뿌려주기
-class DetailViewController: BaseViewController {
+final class DetailViewController: BaseViewController {
   
   // MARK: - Properties
   var detailState: DetailStateType!
@@ -72,7 +72,7 @@ class DetailViewController: BaseViewController {
     let doneButton = UIBarButtonItem(
       barButtonSystemItem: .done,
       target: self,
-      action: #selector(toolBarButtonDidTap)
+      action: #selector(doneButtonDidTap)
     )
     toolBar.setItems([space, doneButton], animated: true)
     return toolBar
@@ -142,8 +142,6 @@ class DetailViewController: BaseViewController {
     tv.layer.borderWidth = 1
     tv.layer.borderColor = SSType.lv1.color.cgColor
     tv.font = .systemFont(ofSize: 14)
-//    tv.text = textViewPlaceholder
-//    tv.textColor = SSType.placeholder.color
     tv.backgroundColor = .clear
     tv.textContainerInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
     tv.indicatorStyle = .black
@@ -222,7 +220,6 @@ class DetailViewController: BaseViewController {
       $0.top.bottom.leading.trailing.equalToSuperview()
       
       $0.height.equalTo(self.scrollView)
-//      $0.height.equalTo(scrollView).priority(.high)
       $0.width.equalTo(self.scrollView)
     }
     
@@ -239,13 +236,11 @@ class DetailViewController: BaseViewController {
     
     self.expirationDateTextField.snp.makeConstraints {
       $0.leading.trailing.equalTo(self.nameTextField)
-//      $0.width.equalTo(100)
       $0.top.equalTo(self.nameTextField.snp.bottom).offset(30)
     }
     
     self.consumptionDateTextField.snp.makeConstraints {
       $0.leading.trailing.equalTo(self.nameTextField)
-//      $0.width.equalTo(150)
       $0.top.equalTo(self.expirationDateTextField.snp.bottom).offset(30)
     }
     
@@ -266,14 +261,14 @@ class DetailViewController: BaseViewController {
     self.leftItem = UIBarButtonItem(customView: self.cancelButton)
     navigationItem.leftBarButtonItem = self.leftItem
     navigationItem.rightBarButtonItem = self.rightItem
-    createDatePicker()
+    self.createDatePicker()
   }
   
   // MARK: - Helpers
   
   private func configureEditing() {
-    saveButton.isEnabled = true
-    saveButton.setTitleColor(SSType.lv2.color, for: .normal)
+    self.saveButton.isEnabled = true
+    self.saveButton.setTitleColor(SSType.lv2.color, for: .normal)
     
     self.nameTextField.text = self.foodModel?.name
     self.expirationDateTextField.text = self.foodModel?.expirationDate
@@ -299,8 +294,8 @@ class DetailViewController: BaseViewController {
   }
   
   private func configureAddition() {
-    descriptionTextView.text = textViewPlaceholder
-    descriptionTextView.textColor = SSType.placeholder.color
+    self.descriptionTextView.text = self.textViewPlaceholder
+    self.descriptionTextView.textColor = SSType.placeholder.color
   }
   
   private func addNotiObserver() {
@@ -370,7 +365,7 @@ class DetailViewController: BaseViewController {
         category: categoryTextField.text! == "" ? "미분류" : categoryTextField.text!
       )
       
-      if thumbnailImageView.image != cameraImage {
+      if self.thumbnailImageView.image != self.cameraImage {
         let data = thumbnailImageView.image?.jpegData(compressionQuality: 1)
         self.foodModel?.thumbnail = data
       } else {
@@ -380,6 +375,7 @@ class DetailViewController: BaseViewController {
       if let foodResult = self.foodModel {
         PersistenceManager.shared.insertFood(foodModel: foodResult) //CoreData 저장
       }
+      
     default: break
     }
 
@@ -406,7 +402,7 @@ class DetailViewController: BaseViewController {
     self.navigationController?.popViewController(animated: true)
   }
   
-  @objc private func toolBarButtonDidTap() {
+  @objc private func doneButtonDidTap() {
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy.MM.dd"
     
@@ -444,22 +440,6 @@ class DetailViewController: BaseViewController {
   }
   
   @objc private func imageDidTap() {
-    
-    switch PHPhotoLibrary.authorizationStatus(for: .addOnly) {
-    case .notDetermined:
-      print("DEBUG: 사용자가 앱의 권한을 아무것도 설정하지 않은 경우입니다.")
-    case .restricted:
-      print("DEBUG: 라이브러리 권한에 제한이 생긴 경우입니다. 사진을 얻어올 수 없습니다.")
-    case .denied:
-      print("DEBUG: 사용자가 접근을 거부한 것입니다. 사진을 얻어올 수 없습니다.")
-    case .authorized:
-      print("DEBUG: 사용자가 앱에게 라이브러리를 사용할 수 있도록 권한을 설정한 경우입니다.")
-    case .limited:
-      print("DEBUG: 사용자가 제한된 접근 권한을 부여한 경우입니다. (iOS 14+)")
-    @unknown default:
-      print("DEBUG: unKnown")
-    }
-    
     let picker = UIImagePickerController()
     picker.sourceType = .camera
     picker.allowsEditing = true

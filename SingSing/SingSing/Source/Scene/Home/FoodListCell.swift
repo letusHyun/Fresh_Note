@@ -120,7 +120,7 @@ final class FoodListCell: UITableViewCell {
     
     self.stackView.snp.makeConstraints {
       $0.left.equalTo(self.thumbnailImageView.snp.right).offset(10)
-      $0.right.equalToSuperview().inset(10)
+      $0.right.equalToSuperview().inset(15)
       $0.top.bottom.equalToSuperview().inset(5)
     }
   }
