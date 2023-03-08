@@ -38,6 +38,13 @@
 		13B29B5429A60911009DAEC1 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29B5329A60911009DAEC1 /* Font.swift */; };
 		13B29B5829AA6D30009DAEC1 /* DetailStateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29B5729AA6D30009DAEC1 /* DetailStateType.swift */; };
 		13B29B5B29AD020E009DAEC1 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 13B29B5A29AD020E009DAEC1 /* FSCalendar */; };
+		13B29B5E29AE04D4009DAEC1 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29B5D29AE04D4009DAEC1 /* OnboardingViewController.swift */; };
+		13B29B6429AF25D7009DAEC1 /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29B6329AF25D7009DAEC1 /* DescriptionCell.swift */; };
+		13B29B6B29AFA675009DAEC1 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29B6A29AFA675009DAEC1 /* Storage.swift */; };
+		13C6E2A529B439AF0086DE40 /* DdayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6E2A429B439AF0086DE40 /* DdayCell.swift */; };
+		13C6E2A729B4DDA50086DE40 /* OnboardingCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6E2A629B4DDA50086DE40 /* OnboardingCellType.swift */; };
+		13C6E2A929B5CC530086DE40 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6E2A829B5CC530086DE40 /* UITextField+.swift */; };
+		13C6E2AB29B892E50086DE40 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6E2AA29B892E50086DE40 /* UserDefaultsKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +79,13 @@
 		13B29B5129A4B746009DAEC1 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		13B29B5329A60911009DAEC1 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		13B29B5729AA6D30009DAEC1 /* DetailStateType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailStateType.swift; sourceTree = "<group>"; };
+		13B29B5D29AE04D4009DAEC1 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		13B29B6329AF25D7009DAEC1 /* DescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
+		13B29B6A29AFA675009DAEC1 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		13C6E2A429B439AF0086DE40 /* DdayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DdayCell.swift; sourceTree = "<group>"; };
+		13C6E2A629B4DDA50086DE40 /* OnboardingCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCellType.swift; sourceTree = "<group>"; };
+		13C6E2A829B5CC530086DE40 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
+		13C6E2AA29B892E50086DE40 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +147,7 @@
 				13B29AD529995FDF009DAEC1 /* Model */,
 				13B29B2D29A0C36A009DAEC1 /* FoodModel.swift */,
 				13B29ACD2999473C009DAEC1 /* Manager */,
+				13B29B6929AFA658009DAEC1 /* Storage */,
 				13B29AAE29993E59009DAEC1 /* AppDelegate.swift */,
 				13B29AB029993E59009DAEC1 /* SceneDelegate.swift */,
 			);
@@ -168,6 +183,7 @@
 		13B29AD029994FCA009DAEC1 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				13B29B5C29AE04A0009DAEC1 /* Onboarding */,
 				13B29AC7299944D2009DAEC1 /* Home */,
 				13B29B12299BE289009DAEC1 /* Calendar */,
 				13B29B0F299BE22C009DAEC1 /* Pin */,
@@ -221,6 +237,7 @@
 				13B29B2A299ECD4C009DAEC1 /* UIResponder+.swift */,
 				13B29B3C29A33EDB009DAEC1 /* UIDatePicker+.swift */,
 				13B29B4229A372E5009DAEC1 /* Array+.swift */,
+				13C6E2A829B5CC530086DE40 /* UITextField+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -274,6 +291,26 @@
 				13B29B1C299C12B6009DAEC1 /* DetailViewController.swift */,
 			);
 			path = Add;
+			sourceTree = "<group>";
+		};
+		13B29B5C29AE04A0009DAEC1 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				13B29B5D29AE04D4009DAEC1 /* OnboardingViewController.swift */,
+				13B29B6329AF25D7009DAEC1 /* DescriptionCell.swift */,
+				13C6E2A429B439AF0086DE40 /* DdayCell.swift */,
+				13C6E2A629B4DDA50086DE40 /* OnboardingCellType.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		13B29B6929AFA658009DAEC1 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				13B29B6A29AFA675009DAEC1 /* Storage.swift */,
+				13C6E2AA29B892E50086DE40 /* UserDefaultsKey.swift */,
+			);
+			path = Storage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -359,18 +396,24 @@
 				13B29B3D29A33EDB009DAEC1 /* UIDatePicker+.swift in Sources */,
 				13B29AAF29993E59009DAEC1 /* AppDelegate.swift in Sources */,
 				13B29AB129993E59009DAEC1 /* SceneDelegate.swift in Sources */,
+				13B29B6429AF25D7009DAEC1 /* DescriptionCell.swift in Sources */,
 				13B29AB929993E59009DAEC1 /* SingSing.xcdatamodeld in Sources */,
 				13B29B4F29A4B596009DAEC1 /* Food+CoreDataClass.swift in Sources */,
+				13C6E2AB29B892E50086DE40 /* UserDefaultsKey.swift in Sources */,
+				13C6E2A729B4DDA50086DE40 /* OnboardingCellType.swift in Sources */,
 				13B29B03299AB949009DAEC1 /* Preview.swift in Sources */,
 				13B29AF8299A1965009DAEC1 /* FoodListCell.swift in Sources */,
 				13B29B2E29A0C36A009DAEC1 /* FoodModel.swift in Sources */,
 				13B29AFF299A98AB009DAEC1 /* UIColor+.swift in Sources */,
+				13B29B5E29AE04D4009DAEC1 /* OnboardingViewController.swift in Sources */,
 				13B29B5029A4B596009DAEC1 /* Food+CoreDataProperties.swift in Sources */,
 				13B29B17299BE53A009DAEC1 /* MyViewController.swift in Sources */,
 				13B29B11299BE275009DAEC1 /* PinViewController.swift in Sources */,
 				13B29B2B299ECD4C009DAEC1 /* UIResponder+.swift in Sources */,
 				13B29B1D299C12B6009DAEC1 /* DetailViewController.swift in Sources */,
 				13B29B5229A4B746009DAEC1 /* Category.swift in Sources */,
+				13C6E2A529B439AF0086DE40 /* DdayCell.swift in Sources */,
+				13C6E2A929B5CC530086DE40 /* UITextField+.swift in Sources */,
 				13B29B01299AB2BE009DAEC1 /* UIButton+.swift in Sources */,
 				13B29AC9299944E5009DAEC1 /* HomeViewController.swift in Sources */,
 				13B29B0A299BC323009DAEC1 /* MainTabBarController.swift in Sources */,
@@ -381,6 +424,7 @@
 				13B29B5829AA6D30009DAEC1 /* DetailStateType.swift in Sources */,
 				13B29B21299E2CEC009DAEC1 /* UnderlineTextField.swift in Sources */,
 				13B29B14299BE29D009DAEC1 /* CalendarViewController.swift in Sources */,
+				13B29B6B29AFA675009DAEC1 /* Storage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
