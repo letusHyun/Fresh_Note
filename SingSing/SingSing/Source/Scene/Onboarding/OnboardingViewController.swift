@@ -39,8 +39,8 @@ final class OnboardingViewController: BaseViewController {
     cv.isPagingEnabled = true
     cv.showsHorizontalScrollIndicator = false
     
-    cv.register(DescriptionCell.self, forCellWithReuseIdentifier: DescriptionCell.id)
-    cv.register(DdayCell.self, forCellWithReuseIdentifier: DdayCell.id)
+    cv.register(cellType: DescriptionCell.self)
+    cv.register(cellType: DdayCell.self)
     cv.delegate = self
     cv.dataSource = self
     return cv
@@ -118,13 +118,13 @@ final class OnboardingViewController: BaseViewController {
     self.view.endEditing(true)
   }
   
-  // TODO: - d Day 데이터 영구 저장
-  // TODO: - 다른 Cell 클릭 시 키보드 내리기
+  // TODO: - OnboardingVC rootVC로 설정해서 메모리 누수 해결하기
   @objc private func startButtonDidTap() {
     
     guard let dDayCell = self.dDayCell else { return }
-    guard let string = dDayCell.dDayString else { return }
-    Storage.setFirstTime(dDay: string)
+    guard let dDay = dDayCell.dDayString else { return }
+    guard let time = dDayCell.time else { return }
+    Storage.setFirstTime(dDay: dDay, time: time)
     
     let tabBarVC = MainTabBarController()
     tabBarVC.modalPresentationStyle = .fullScreen
@@ -197,19 +197,22 @@ extension OnboardingViewController: UICollectionViewDataSource {
     switch self.dataSource[index] {
       
     case let .description(description):
-      guard let descriptionCell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: DescriptionCell.id,
-        for: indexPath
-      ) as? DescriptionCell else { return UICollectionViewCell() }
-      
+      let descriptionCell = collectionView.dequeueReusableCell(for: indexPath) as DescriptionCell
       descriptionCell.configure(description: description)
       return descriptionCell
       
     case .dDay:
-      guard let dDayCell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: DdayCell.id,
-        for: indexPath
-      ) as? DdayCell else { return UICollectionViewCell() }
+      let dDayCell = collectionView.dequeueReusableCell(for: indexPath) as DdayCell
+      dDayCell.textFieldDidChange = { [weak self] isEmpty in
+        if isEmpty {
+          self?.startButton.backgroundColor = SSType.lv2.color.withAlphaComponent(0.5)
+          self?.startButton.isEnabled = false
+        } else {
+          self?.startButton.backgroundColor = SSType.lv2.color
+          self?.startButton.isEnabled = true
+        }
+      }
+      
       return dDayCell
     }
   }
@@ -220,17 +223,6 @@ extension OnboardingViewController: UICollectionViewDataSource {
   ) {
     guard let dDayCell = collectionView.cellForItem(at: indexPath) as? DdayCell
     else { return }
-    
-    dDayCell.pushCompletion = { [weak self] isEmpty in
-      if isEmpty {
-        self?.startButton.backgroundColor = SSType.lv2.color.withAlphaComponent(0.5)
-        self?.startButton.isEnabled = false
-      } else {
-        self?.startButton.backgroundColor = SSType.lv2.color
-        self?.startButton.isEnabled = true
-      }
-    }
-    
     dDayCell.contentView.endEditing(true)
     
     self.dDayCell = dDayCell

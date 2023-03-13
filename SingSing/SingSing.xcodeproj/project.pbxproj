@@ -44,7 +44,9 @@
 		13C6E2A529B439AF0086DE40 /* DdayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6E2A429B439AF0086DE40 /* DdayCell.swift */; };
 		13C6E2A729B4DDA50086DE40 /* OnboardingCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6E2A629B4DDA50086DE40 /* OnboardingCellType.swift */; };
 		13C6E2A929B5CC530086DE40 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6E2A829B5CC530086DE40 /* UITextField+.swift */; };
-		13C6E2AB29B892E50086DE40 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6E2AA29B892E50086DE40 /* UserDefaultsKey.swift */; };
+		13C6E2AE29B9D0E10086DE40 /* Reusable in Frameworks */ = {isa = PBXBuildFile; productRef = 13C6E2AD29B9D0E10086DE40 /* Reusable */; };
+		13C6E2D129BEFFFB0086DE40 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6E2D029BEFFFB0086DE40 /* CategoryViewController.swift */; };
+		13C6E2D329BF042B0086DE40 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C6E2D229BF042B0086DE40 /* CategoryCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,7 +87,8 @@
 		13C6E2A429B439AF0086DE40 /* DdayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DdayCell.swift; sourceTree = "<group>"; };
 		13C6E2A629B4DDA50086DE40 /* OnboardingCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCellType.swift; sourceTree = "<group>"; };
 		13C6E2A829B5CC530086DE40 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
-		13C6E2AA29B892E50086DE40 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
+		13C6E2D029BEFFFB0086DE40 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		13C6E2D229BF042B0086DE40 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +98,7 @@
 			files = (
 				13B29B06299AB9B5009DAEC1 /* SnapKit in Frameworks */,
 				13B29B5B29AD020E009DAEC1 /* FSCalendar in Frameworks */,
+				13C6E2AE29B9D0E10086DE40 /* Reusable in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,7 +149,6 @@
 			children = (
 				13B29AD029994FCA009DAEC1 /* Scene */,
 				13B29AD529995FDF009DAEC1 /* Model */,
-				13B29B2D29A0C36A009DAEC1 /* FoodModel.swift */,
 				13B29ACD2999473C009DAEC1 /* Manager */,
 				13B29B6929AFA658009DAEC1 /* Storage */,
 				13B29AAE29993E59009DAEC1 /* AppDelegate.swift */,
@@ -157,7 +160,7 @@
 		13B29AC7299944D2009DAEC1 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				13B29B2C29A0C33F009DAEC1 /* Add */,
+				13B29B2C29A0C33F009DAEC1 /* Detail */,
 				13B29AC8299944E5009DAEC1 /* HomeViewController.swift */,
 				13B29AF7299A1965009DAEC1 /* FoodListCell.swift */,
 			);
@@ -196,6 +199,7 @@
 		13B29AD529995FDF009DAEC1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				13B29B2D29A0C36A009DAEC1 /* FoodModel.swift */,
 				13B29AD629995FE8009DAEC1 /* CoreData */,
 			);
 			path = Model;
@@ -285,12 +289,13 @@
 			path = Enum;
 			sourceTree = "<group>";
 		};
-		13B29B2C29A0C33F009DAEC1 /* Add */ = {
+		13B29B2C29A0C33F009DAEC1 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
 				13B29B1C299C12B6009DAEC1 /* DetailViewController.swift */,
+				13C6E2CF29BEFFE40086DE40 /* Category */,
 			);
-			path = Add;
+			path = Detail;
 			sourceTree = "<group>";
 		};
 		13B29B5C29AE04A0009DAEC1 /* Onboarding */ = {
@@ -308,9 +313,17 @@
 			isa = PBXGroup;
 			children = (
 				13B29B6A29AFA675009DAEC1 /* Storage.swift */,
-				13C6E2AA29B892E50086DE40 /* UserDefaultsKey.swift */,
 			);
 			path = Storage;
+			sourceTree = "<group>";
+		};
+		13C6E2CF29BEFFE40086DE40 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				13C6E2D029BEFFFB0086DE40 /* CategoryViewController.swift */,
+				13C6E2D229BF042B0086DE40 /* CategoryCell.swift */,
+			);
+			path = Category;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,6 +345,7 @@
 			packageProductDependencies = (
 				13B29B05299AB9B5009DAEC1 /* SnapKit */,
 				13B29B5A29AD020E009DAEC1 /* FSCalendar */,
+				13C6E2AD29B9D0E10086DE40 /* Reusable */,
 			);
 			productName = SingSing;
 			productReference = 13B29AAB29993E59009DAEC1 /* SingSing.app */;
@@ -364,6 +378,7 @@
 			packageReferences = (
 				13B29B04299AB9B5009DAEC1 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				13B29B5929AD020E009DAEC1 /* XCRemoteSwiftPackageReference "FSCalendar" */,
+				13C6E2AC29B9D0E10086DE40 /* XCRemoteSwiftPackageReference "Reusable" */,
 			);
 			productRefGroup = 13B29AAC29993E59009DAEC1 /* Products */;
 			projectDirPath = "";
@@ -393,13 +408,13 @@
 			files = (
 				13B29ACC2999453A009DAEC1 /* BaseViewController.swift in Sources */,
 				13B29B4329A372E5009DAEC1 /* Array+.swift in Sources */,
+				13C6E2D129BEFFFB0086DE40 /* CategoryViewController.swift in Sources */,
 				13B29B3D29A33EDB009DAEC1 /* UIDatePicker+.swift in Sources */,
 				13B29AAF29993E59009DAEC1 /* AppDelegate.swift in Sources */,
 				13B29AB129993E59009DAEC1 /* SceneDelegate.swift in Sources */,
 				13B29B6429AF25D7009DAEC1 /* DescriptionCell.swift in Sources */,
 				13B29AB929993E59009DAEC1 /* SingSing.xcdatamodeld in Sources */,
 				13B29B4F29A4B596009DAEC1 /* Food+CoreDataClass.swift in Sources */,
-				13C6E2AB29B892E50086DE40 /* UserDefaultsKey.swift in Sources */,
 				13C6E2A729B4DDA50086DE40 /* OnboardingCellType.swift in Sources */,
 				13B29B03299AB949009DAEC1 /* Preview.swift in Sources */,
 				13B29AF8299A1965009DAEC1 /* FoodListCell.swift in Sources */,
@@ -415,6 +430,7 @@
 				13C6E2A529B439AF0086DE40 /* DdayCell.swift in Sources */,
 				13C6E2A929B5CC530086DE40 /* UITextField+.swift in Sources */,
 				13B29B01299AB2BE009DAEC1 /* UIButton+.swift in Sources */,
+				13C6E2D329BF042B0086DE40 /* CategoryCell.swift in Sources */,
 				13B29AC9299944E5009DAEC1 /* HomeViewController.swift in Sources */,
 				13B29B0A299BC323009DAEC1 /* MainTabBarController.swift in Sources */,
 				13B29B5429A60911009DAEC1 /* Font.swift in Sources */,
@@ -660,6 +676,14 @@
 				minimumVersion = 2.8.0;
 			};
 		};
+		13C6E2AC29B9D0E10086DE40 /* XCRemoteSwiftPackageReference "Reusable" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AliSoftware/Reusable";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 4.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -672,6 +696,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 13B29B5929AD020E009DAEC1 /* XCRemoteSwiftPackageReference "FSCalendar" */;
 			productName = FSCalendar;
+		};
+		13C6E2AD29B9D0E10086DE40 /* Reusable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 13C6E2AC29B9D0E10086DE40 /* XCRemoteSwiftPackageReference "Reusable" */;
+			productName = Reusable;
 		};
 /* End XCSwiftPackageProductDependency section */
 

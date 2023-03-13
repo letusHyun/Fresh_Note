@@ -10,16 +10,14 @@ import Photos
 import UIKit
 
 import SnapKit
-// TODO: - DetailViewController로 이름 변경후, cell 클릭 시 update 구현하기
-// TODO: - editing으로 들어온 경우, 가져온 foodModel을 이용해 화면에 뿌려주기
-// TODO: - editing으로 완료할 경우, 해당 cell의 data change해줘서 화면에 뿌려주기
+
 final class DetailViewController: BaseViewController {
   
   // MARK: - Properties
+  
   var detailState: DetailStateType!
   var foodModel: FoodModel?
   var popCompletion: (() -> Void)?
-  private let textViewPlaceholder = "메모를 입력하세요."
   
   private lazy var saveButton: UIButton = {
     let button = UIButton()
@@ -132,8 +130,14 @@ final class DetailViewController: BaseViewController {
     return tf
   }()
   
-  private let categoryTextField: UnderlineTextField = {
+  private lazy var categoryTextField: UnderlineTextField = {
+    let categoryGesture = UITapGestureRecognizer(
+      target: self,
+      action: #selector(categoryDidTap)
+    )
+    
     let tf = UnderlineTextField(placeholder: "카테고리")
+    tf.addGestureRecognizer(categoryGesture)
     return tf
   }()
   
@@ -184,7 +188,6 @@ final class DetailViewController: BaseViewController {
     super.viewDidLoad()
     addNotiObserver()
     initialSetting()
-
   }
   
   private func initialSetting() {
@@ -213,7 +216,8 @@ final class DetailViewController: BaseViewController {
   
   override func setupConstraints() {
     self.scrollView.snp.makeConstraints {
-      $0.top.bottom.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
+//      $0.top.bottom.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
+      $0.edges.equalTo(self.view.safeAreaLayoutGuide)
     }
     
     self.containerView.snp.makeConstraints {
@@ -276,7 +280,7 @@ final class DetailViewController: BaseViewController {
     self.categoryTextField.text = self.foodModel?.category
     
     if self.foodModel?.extraDescription == "" {
-      self.descriptionTextView.text = self.textViewPlaceholder
+      self.descriptionTextView.text = Constant.placeholder.rawValue
       self.descriptionTextView.textColor = .placeholderText
     } else {
       self.descriptionTextView.text = self.foodModel?.extraDescription
@@ -294,7 +298,7 @@ final class DetailViewController: BaseViewController {
   }
   
   private func configureAddition() {
-    self.descriptionTextView.text = self.textViewPlaceholder
+    self.descriptionTextView.text = Constant.placeholder.rawValue
     self.descriptionTextView.textColor = SSType.placeholder.color
   }
   
@@ -335,9 +339,9 @@ final class DetailViewController: BaseViewController {
       self.foodModel?.expirationDate = self.expirationDateTextField.text!
       self.foodModel?.consumptionDate = self.consumptionDateTextField.text
       self.foodModel?.category = self.categoryTextField
-        .text! == "" ? "미분류" : categoryTextField.text!
+        .text! == "" ? "기타" : categoryTextField.text!
       
-      if self.descriptionTextView.text == self.textViewPlaceholder {
+      if self.descriptionTextView.text == Constant.placeholder.rawValue {
         self.foodModel?.extraDescription = ""
       } else {
         self.foodModel?.extraDescription = self.descriptionTextView.text
@@ -361,8 +365,8 @@ final class DetailViewController: BaseViewController {
         expirationDate: self.expirationDateTextField.text!,
         consumptionDate: self.consumptionDateTextField.text,
         extraDescription:
-          descriptionTextView.text == textViewPlaceholder ? "" : descriptionTextView.text,
-        category: categoryTextField.text! == "" ? "미분류" : categoryTextField.text!
+          descriptionTextView.text == Constant.placeholder.rawValue ? "" : descriptionTextView.text,
+        category: categoryTextField.text! == "" ? "기타" : categoryTextField.text!
       )
       
       if self.thumbnailImageView.image != self.cameraImage {
@@ -447,6 +451,18 @@ final class DetailViewController: BaseViewController {
     
     self.present(picker, animated: true)
   }
+  
+  @objc private func categoryDidTap() {
+    self.view.endEditing(true)
+    let categoryVC = CategoryViewController()
+//    categoryVC.modalPresentationStyle = .formSheet
+    
+    categoryVC.dismissCompletion = { [weak self] text in
+      self?.categoryTextField.text = text
+    }
+    
+    self.present(categoryVC, animated: true)
+  }
 }
 
 // MARK: - UITextViewDelegate
@@ -454,7 +470,7 @@ final class DetailViewController: BaseViewController {
 extension DetailViewController: UITextViewDelegate {
   // TODO: - placeholder를 클릭시 사라지는것이 아닌, 타이핑 시 사라지게 하기
   func textViewDidBeginEditing(_ textView: UITextView) {
-    if textView.text == self.textViewPlaceholder {
+    if textView.text == Constant.placeholder.rawValue {
       textView.text = nil
       textView.textColor = .black
     }
@@ -462,7 +478,7 @@ extension DetailViewController: UITextViewDelegate {
   
   func textViewDidEndEditing(_ textView: UITextView) {
     if textView.text.isEmpty {
-      self.descriptionTextView.text = self.textViewPlaceholder
+      self.descriptionTextView.text = Constant.placeholder.rawValue
       self.descriptionTextView.textColor = SSType.placeholder.color
     }
   }
@@ -487,4 +503,10 @@ extension DetailViewController: UIImagePickerControllerDelegate {
 
 extension DetailViewController: UINavigationControllerDelegate {
 
+}
+
+extension DetailViewController {
+  private enum Constant: String {
+    case placeholder = "메모를 입력하세요."
+  }
 }

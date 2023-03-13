@@ -8,18 +8,22 @@
 import UIKit
 
 import SnapKit
+import Reusable
 
-class DdayCell: UICollectionViewCell {
+class DdayCell: UICollectionViewCell, Reusable {
   
   // MARK: - Properties
   
-  var pushCompletion: ((Bool) -> Void)?
-  
+  var textFieldDidChange: ((Bool) -> Void)?
   private let maxLength = 2
   
-  static var id: String {
-    return NSStringFromClass(Self.self).components(separatedBy: ".").last!
-  }
+  private let descriptionLabel: UILabel = {
+    let label = UILabel()
+    label.text = "원하는 날짜와 알람 시간을 지정해주세요."
+    label.textColor = SSType.lv3.color
+    label.font = .systemFont(ofSize: 13)
+    return label
+  }()
   
   private let dLabel: UILabel = {
     let label = UILabel()
@@ -42,6 +46,7 @@ class DdayCell: UICollectionViewCell {
   }()
   
   var dDayString: String?
+  var time: Date?
   
   private lazy var textField: UITextField = {
     let tf = UITextField()
@@ -50,8 +55,16 @@ class DdayCell: UICollectionViewCell {
     tf.font = .systemFont(ofSize: 50)
     tf.addTarget(self, action: #selector(textDidChange(_:)), for: .editingChanged)
     tf.textColor = SSType.lv3.color
-    tf.delegate = self
     return tf
+  }()
+  
+  private lazy var notiDatePicker: UIDatePicker = {
+    let dp = UIDatePicker()
+    dp.preferredDatePickerStyle = .compact
+    dp.datePickerMode = .time
+    dp.locale = Locale(identifier: "ko_KR")
+    dp.addTarget(self, action: #selector(dateDidChange(_:)), for: .allEvents)
+    return dp
   }()
   
   // MARK: - LifeCycle
@@ -77,9 +90,16 @@ class DdayCell: UICollectionViewCell {
   private func setupLayouts() {
     self.contentView.addSubview(self.dLabel)
     self.contentView.addSubview(self.textField)
+    self.contentView.addSubview(self.notiDatePicker)
+    self.contentView.addSubview(self.descriptionLabel)
   }
   
   private func setupConstraints() {
+    self.descriptionLabel.snp.makeConstraints {
+      $0.centerX.equalToSuperview()
+      $0.bottom.equalTo(self.dLabel.snp.top).offset(-50)
+    }
+    
     self.dLabel.snp.makeConstraints {
       $0.centerX.equalToSuperview().offset(-25)
       $0.centerY.equalToSuperview()
@@ -90,6 +110,11 @@ class DdayCell: UICollectionViewCell {
       $0.trailing.equalToSuperview()
       $0.centerY.equalTo(self.dLabel)
     }
+    
+    self.notiDatePicker.snp.makeConstraints {
+      $0.centerX.equalToSuperview()
+      $0.top.equalTo(self.dLabel.snp.bottom).offset(40)
+    }
   }
   
   // MARK: - Action
@@ -98,22 +123,20 @@ class DdayCell: UICollectionViewCell {
     if sender.text?.count ?? 0 > self.maxLength {
       sender.deleteBackward()
     }
-  }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension DdayCell: UITextFieldDelegate {
-  func textFieldDidEndEditing(_ textField: UITextField) {
+    
     if self.textField.text == "" ||
       self.textField.text == "00" {
-      self.pushCompletion?(true)
+      self.textFieldDidChange?(true)
     } else if self.textField.text == "0" {
       self.dDayString = self.textField.text
-      self.pushCompletion?(false)
+      self.textFieldDidChange?(false)
     } else {
       self.dDayString = self.textField.text
-      self.pushCompletion?(false)
+      self.textFieldDidChange?(false)
     }
+  }
+  
+  @objc private func dateDidChange(_ sender: UIDatePicker) {
+    self.time = sender.date
   }
 }

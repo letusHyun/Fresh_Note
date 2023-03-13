@@ -7,13 +7,12 @@
 
 import UIKit
 
+import Reusable
 import SnapKit
 
-final class FoodListCell: UITableViewCell {
+final class FoodListCell: UITableViewCell, Reusable {
   
   // MARK: - Properties
-  
-  static let id = "FoodListCell"
   
   private let defaultImage: UIImage = {
     guard let image = UIImage(systemName: "fork.knife.circle", weight: .medium)?

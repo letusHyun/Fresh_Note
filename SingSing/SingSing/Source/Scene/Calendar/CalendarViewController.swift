@@ -14,6 +14,12 @@ final class CalendarViewController: BaseViewController {
   
   // MARK: - Properties
 
+  private lazy var collectionView: UICollectionView = {
+    let cv = UICollectionView()
+    
+    return cv
+  }()
+  
   private lazy var calendar: FSCalendar = {
     let calendar = FSCalendar()
     calendar.locale = Locale(identifier: "ko_KR")
@@ -24,9 +30,7 @@ final class CalendarViewController: BaseViewController {
     calendar.appearance.todayColor = UIColor(hex: "FF0000", alpha: 0.15)
     calendar.appearance.weekdayTextColor = UIColor(hex: "716D6D")
     calendar.appearance.headerTitleAlignment = .left
-//    calendar.placeholderType = .none
-    
-//    calendar.scrollDirection = .vertical
+
     calendar.scrollEnabled = true
     calendar.placeholderType = .none
     calendar.headerHeight = 0

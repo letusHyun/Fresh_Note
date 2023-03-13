@@ -7,20 +7,16 @@
 
 import UIKit
 
-final class DescriptionCell: UICollectionViewCell {
+import Reusable
+
+final class DescriptionCell: UICollectionViewCell, Reusable {
   
   // MARK: - Properties
-  
-  static var id: String {
-    return NSStringFromClass(Self.self).components(separatedBy: ".").last!
-  }
   
   private let descriptionLabel: UILabel = {
     let label = UILabel()
     return label
   }()
-  
-  private var dDayTextField: UITextField?
   
   // MARK: - LifeCycle
   

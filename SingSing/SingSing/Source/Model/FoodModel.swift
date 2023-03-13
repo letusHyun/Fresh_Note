@@ -13,6 +13,6 @@ struct FoodModel {
   var expirationDate: String
   var consumptionDate: String?
   var extraDescription: String?
-  var category = "미분류"
+  var category = "기타"
   var thumbnail: Data?
 }

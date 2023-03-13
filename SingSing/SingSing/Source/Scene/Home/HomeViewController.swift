@@ -63,7 +63,7 @@ final class HomeViewController: BaseViewController {
     let tv = UITableView()
     tv.delegate = self
     tv.dataSource = self
-    tv.register(FoodListCell.self, forCellReuseIdentifier: FoodListCell.id)
+    tv.register(cellType: FoodListCell.self)
     tv.backgroundColor = SSType.background.color
     tv.separatorStyle = UITableViewCell.SeparatorStyle.none
     return tv
@@ -186,14 +186,8 @@ extension HomeViewController: UITableViewDataSource {
     _ tableView: UITableView,
     cellForRowAt indexPath: IndexPath
   ) -> UITableViewCell {
-    guard let cell = tableView.dequeueReusableCell(
-      withIdentifier: FoodListCell.id, for: indexPath
-    ) as? FoodListCell
-    else { return UITableViewCell() }
-    
-    cell.selectionStyle = UITableViewCell.SelectionStyle.none
-    let foodResult = self.foodModels[indexPath.row]
-    cell.configure(foodResult)
+    let cell = tableView.dequeueReusableCell(for: indexPath) as FoodListCell
+    cell.configure(self.foodModels[indexPath.row])
     
     return cell
   }
