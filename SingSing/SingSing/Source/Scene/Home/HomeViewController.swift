@@ -5,7 +5,7 @@
 //  Created by SeokHyun on 2023/02/13.
 //
 
-// TODO: -   :버튼 만들어서 선택 삭제 기능 구현
+// TODO: - :버튼 만들어서 선택 삭제 기능 구현
 import CoreData
 import UIKit
 

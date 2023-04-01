@@ -36,7 +36,6 @@ final class FoodListCell: UITableViewCell, Reusable {
 
   private let nameLabel: UILabel = {
     let label = UILabel()
-    label.text = "제 품 명  : 우유"
     label.textColor = .black
     label.font = .systemFont(ofSize: 14)
     return label

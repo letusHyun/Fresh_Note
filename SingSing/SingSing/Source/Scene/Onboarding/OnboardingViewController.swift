@@ -70,10 +70,6 @@ final class OnboardingViewController: BaseViewController {
   
   // MARK: - LifeCycle
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-  }
-  
   // MARK: - Setup
   
   override func setupLayouts() {

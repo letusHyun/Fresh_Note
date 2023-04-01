@@ -14,9 +14,12 @@ final class CalendarViewController: BaseViewController {
   
   // MARK: - Properties
 
+  private var foodModels: [FoodModel]?
+  
   private lazy var collectionView: UICollectionView = {
     let cv = UICollectionView()
-    
+    cv.delegate = self
+    cv.dataSource = self
     return cv
   }()
   
@@ -36,9 +39,6 @@ final class CalendarViewController: BaseViewController {
     calendar.headerHeight = 0
     calendar.delegate = self
     calendar.calendarWeekdayView.weekdayLabels[0].textColor = .systemRed
-    
-    //datePicker에서 날짜 선택 시, 해당 month로 이동
-//    calendar.select(<#T##date: Date?##Date?#>, scrollToDate: true)
     return calendar
   }()
 
@@ -85,7 +85,7 @@ final class CalendarViewController: BaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    
   }
   
   // MARK: - Setup
@@ -154,7 +154,16 @@ extension CalendarViewController: FSCalendarDelegate {
     didSelect date: Date,
     at monthPosition: FSCalendarMonthPosition
   ) {
-    
+//
+//    let formatter = DateFormatter()
+//    formatter.dateFormat = "yyyy.MM.dd"
+//    let dateString = formatter.string(from: date)
+//
+//    self.foodModels = PersistenceManager.shared.fetchFoodModels()
+//
+//    foodModels?.filter({ <#FoodModel#> in
+//      <#code#>
+//    })
   }
   
   func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
@@ -163,4 +172,29 @@ extension CalendarViewController: FSCalendarDelegate {
       for: .normal
     )
   }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension CalendarViewController: UICollectionViewDataSource {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    numberOfItemsInSection section: Int
+  ) -> Int {
+    return 1
+  }
+  
+  func collectionView(
+    _ collectionView: UICollectionView,
+    cellForItemAt indexPath: IndexPath
+  ) -> UICollectionViewCell {
+    
+    return UICollectionViewCell()
+  }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension CalendarViewController: UICollectionViewDelegateFlowLayout {
+  
 }
