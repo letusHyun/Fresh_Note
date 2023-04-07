@@ -11,6 +11,17 @@ import UIKit
 
 import SnapKit
 
+/*
+ input을 ViewModel에게 전달
+ input:
+  - 버튼 클릭
+  - cell 터치
+  - View의 LifeCycle
+ 
+ ViewModel은
+ 
+ */
+
 final class HomeViewController: BaseViewController {
   
   // MARK: - Properties
