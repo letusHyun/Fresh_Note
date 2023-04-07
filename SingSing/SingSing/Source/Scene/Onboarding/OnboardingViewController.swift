@@ -5,6 +5,7 @@
 //  Created by SeokHyun on 2023/02/28.
 //
 
+import Combine
 import UIKit
 
 import SnapKit
@@ -12,6 +13,10 @@ import SnapKit
 final class OnboardingViewController: BaseViewController {
   
   // MARK: - Properties
+  
+  private var cancellables = Set<AnyCancellable>()
+  private let viewModel = OnboardingViewModel()
+  private let input = PassthroughSubject<OnboardingViewModel.Input, Never>()
   
   private var dDayCell: DdayCell?
   private var dataSource = OnboardingCellModel.onboardings
@@ -69,6 +74,50 @@ final class OnboardingViewController: BaseViewController {
   }()
   
   // MARK: - LifeCycle
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    bind()
+  }
+  
+  // MARK: - Binding
+  
+  private func bind() {
+    let output = self.viewModel.transform(input: self.input.eraseToAnyPublisher())
+    
+    output
+      .receive(on: RunLoop.main)
+      .sink { [weak self] event in
+        switch event {
+        case .keyboardDown:
+          self?.view.endEditing(true)
+          self?.dDayCell?.contentView.endEditing(true)
+        case .saveCoreData:
+          let tabBarVC = MainTabBarController()
+          tabBarVC.modalPresentationStyle = .fullScreen
+          self?.present(tabBarVC, animated: true)
+          
+        case .error(let err):
+          print(err)
+          
+        case .passCellIndex(let index):
+          self?.pageControl.currentPage = index //ui 변경
+          let lastIndex = 2
+          if self?.pageControl.currentPage == lastIndex {
+            UIView.animate(withDuration: 0.5) { //ui 변경
+              self?.startButton.isHidden = false
+              self?.startButton.alpha = 1.0
+              self?.view.layoutIfNeeded()
+            }
+          } else { //ui변경
+            self?.startButton.alpha = 0.0
+            self?.startButton.isHidden = true
+          }
+        }
+        
+        
+      }
+      .store(in: &self.cancellables)
+  }
   
   // MARK: - Setup
   
@@ -111,20 +160,12 @@ final class OnboardingViewController: BaseViewController {
   // MARK: - Action
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    self.view.endEditing(true)
+    self.input.send(.touchsBegan)
   }
   
   // TODO: - OnboardingVC rootVC로 설정해서 메모리 누수 해결하기
   @objc private func startButtonDidTap() {
-    
-    guard let dDayCell = self.dDayCell else { return }
-    guard let dDay = dDayCell.dDayString else { return }
-    guard let time = dDayCell.time else { return }
-    Storage.setFirstTime(dDay: dDay, time: time)
-    
-    let tabBarVC = MainTabBarController()
-    tabBarVC.modalPresentationStyle = .fullScreen
-    self.present(tabBarVC, animated: true)
+    self.input.send(.startButtonDidTap)
   }
 }
 
@@ -156,20 +197,7 @@ extension OnboardingViewController: UICollectionViewDelegateFlowLayout {
   }
   
   func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-    let index = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-    self.pageControl.currentPage = index
-    
-    let lastIndex = 2
-    if self.pageControl.currentPage == lastIndex {
-      UIView.animate(withDuration: 0.5) {
-        self.startButton.isHidden = false
-        self.startButton.alpha = 1.0
-        self.view.layoutIfNeeded()
-      }
-    } else {
-      self.startButton.alpha = 0.0
-      self.startButton.isHidden = true
-    }
+    self.input.send(.scrollViewDidEndDecelerating(scrollView))
   }
 }
 
@@ -219,8 +247,8 @@ extension OnboardingViewController: UICollectionViewDataSource {
   ) {
     guard let dDayCell = collectionView.cellForItem(at: indexPath) as? DdayCell
     else { return }
-    dDayCell.contentView.endEditing(true)
     
     self.dDayCell = dDayCell
+    self.input.send(.didSelectItemAt(dDayCell))
   }
 }
