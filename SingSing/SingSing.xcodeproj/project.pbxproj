@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1311E20029DFC2D6008F72BC /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1311E1FF29DFC2D6008F72BC /* OnboardingViewModel.swift */; };
 		13B29AAF29993E59009DAEC1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29AAE29993E59009DAEC1 /* AppDelegate.swift */; };
 		13B29AB129993E59009DAEC1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B29AB029993E59009DAEC1 /* SceneDelegate.swift */; };
 		13B29AB929993E59009DAEC1 /* SingSing.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13B29AB729993E59009DAEC1 /* SingSing.xcdatamodeld */; };
@@ -50,6 +51,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1311E1FF29DFC2D6008F72BC /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		13B29AAB29993E59009DAEC1 /* SingSing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SingSing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B29AAE29993E59009DAEC1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13B29AB029993E59009DAEC1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +107,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1311E1FE29DFC286008F72BC /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				13C6E2A629B4DDA50086DE40 /* OnboardingCellType.swift */,
+				13B29B6329AF25D7009DAEC1 /* DescriptionCell.swift */,
+				13C6E2A429B439AF0086DE40 /* DdayCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		13B29AA229993E59009DAEC1 = {
 			isa = PBXGroup;
 			children = (
@@ -302,9 +314,8 @@
 			isa = PBXGroup;
 			children = (
 				13B29B5D29AE04D4009DAEC1 /* OnboardingViewController.swift */,
-				13B29B6329AF25D7009DAEC1 /* DescriptionCell.swift */,
-				13C6E2A429B439AF0086DE40 /* DdayCell.swift */,
-				13C6E2A629B4DDA50086DE40 /* OnboardingCellType.swift */,
+				1311E1FE29DFC286008F72BC /* Cell */,
+				1311E1FF29DFC2D6008F72BC /* OnboardingViewModel.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -437,6 +448,7 @@
 				13B29AF1299A0673009DAEC1 /* PersistenceManager.swift in Sources */,
 				13B29B1B299BF6AE009DAEC1 /* SSType.swift in Sources */,
 				13B29AFD299A9777009DAEC1 /* UIImage+.swift in Sources */,
+				1311E20029DFC2D6008F72BC /* OnboardingViewModel.swift in Sources */,
 				13B29B5829AA6D30009DAEC1 /* DetailStateType.swift in Sources */,
 				13B29B21299E2CEC009DAEC1 /* UnderlineTextField.swift in Sources */,
 				13B29B14299BE29D009DAEC1 /* CalendarViewController.swift in Sources */,
