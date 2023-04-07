@@ -16,7 +16,6 @@ class BaseViewController: UIViewController {
     setupLayouts()
     setupConstraints()
     setupStyles()
-    bind()
   }
   
   // MARK: - Setup
@@ -28,6 +27,4 @@ class BaseViewController: UIViewController {
   }
   
   // MARK: - Configure
-  
-  func bind() { }
 }
